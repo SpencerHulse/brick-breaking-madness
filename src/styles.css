@@ -1,0 +1,26 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+img {
+  display: none;
+}
+
+#container {
+  display: flex;
+  flex-direction: column;
+  height: 90vh;
+  justify-content: center;
+}
+
+#gameTitle {
+  text-align: center;
+}
+
+#gameScreen {
+  border: 1px solid black;
+  display: block;
+  margin: 0 auto;
+}
