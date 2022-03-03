@@ -2,13 +2,14 @@ import Paddle from "./paddle";
 import InputHandler from "./input";
 import Ball from "./ball";
 
-import { buildLevel, level1 } from "./levels";
+import { buildLevel, level1, level2 } from "./levels";
 
 const GAMESTATE = {
   PAUSED: 0,
   RUNNING: 1,
   MENU: 2,
-  GAMEOVER: 3
+  GAMEOVER: 3,
+  NEWLEVEL: 4
 };
 
 export default class Game {
@@ -20,20 +21,28 @@ export default class Game {
     this.paddle = new Paddle(this);
     this.ball = new Ball(this);
 
+    this.bricks = [];
     this.gameObjects = [];
     this.lives = 3;
+
+    this.levels = [level1, level2];
+    this.currentLevel = 0;
 
     new InputHandler(this.paddle, this);
   }
 
   start() {
-    if (this.gamestate !== GAMESTATE.MENU) {
+    if (
+      this.gamestate !== GAMESTATE.MENU &&
+      this.gamestate !== GAMESTATE.NEWLEVEL
+    ) {
       return;
     }
 
-    let bricks = buildLevel(this, level1);
+    this.bricks = buildLevel(this, this.levels[this.currentLevel]);
+    this.ball.reset();
     // Has to be spread because of the use of forEach in update and draw below
-    this.gameObjects = [this.ball, this.paddle, ...bricks];
+    this.gameObjects = [this.ball, this.paddle];
     this.gamestate = GAMESTATE.RUNNING;
   }
 
@@ -48,15 +57,21 @@ export default class Game {
       return;
     }
 
-    this.gameObjects.forEach((object) => object.update(deltaTime));
+    if (this.bricks.length === 0) {
+      this.currentLevel++;
+      this.gamestate = GAMESTATE.NEWLEVEL;
+      this.start();
+    }
 
-    this.gameObjects = this.gameObjects.filter(
-      (object) => !object.markedForDeletion
+    [...this.gameObjects, ...this.bricks].forEach((object) =>
+      object.update(deltaTime)
     );
+
+    this.bricks = this.bricks.filter((object) => !object.markedForDeletion);
   }
 
   draw(ctx) {
-    this.gameObjects.forEach((object) => object.draw(ctx));
+    [...this.gameObjects, ...this.bricks].forEach((object) => object.draw(ctx));
 
     if (this.gamestate === GAMESTATE.PAUSED) {
       ctx.rect(0, 0, this.gameWidth, this.gameHeight);
