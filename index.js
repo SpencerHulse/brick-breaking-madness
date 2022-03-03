@@ -1,5 +1,6 @@
 import Paddle from "./src/paddle";
 import InputHandler from "./src/input";
+import Ball from "./src/ball";
 
 // Get the canvas element and apply the 2d conext
 let canvas = document.getElementById("gameScreen");
@@ -22,7 +23,7 @@ paddle.draw(ctx);
 let lastTime = 0;
 
 // images
-let ball = document.getElementById("ball");
+let ball = new Ball();
 
 function gameLoop(timestamp) {
   let deltaTime = timestamp - lastTime;
@@ -32,7 +33,7 @@ function gameLoop(timestamp) {
   paddle.update(deltaTime);
   paddle.draw(ctx);
 
-  ctx.drawImage(ball, 10, 10, 16, 16);
+  ball.draw(ctx);
 
   requestAnimationFrame(gameLoop);
 }

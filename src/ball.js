@@ -1,7 +1,11 @@
 export default class Ball {
-  constructor() {}
+  constructor() {
+    this.image = document.getElementById("ball");
+  }
 
-  draw() {}
+  draw(ctx) {
+    return ctx.drawImage(this.image, 10, 10, 16, 16);
+  }
 
   update() {}
 }
