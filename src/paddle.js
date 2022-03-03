@@ -1,8 +1,8 @@
 // Paddle class that is exported by default
 export default class Paddle {
   // Constructor takes canvas width and height
-  constructor(gameWidth, gameHeight) {
-    this.gameWidth = gameWidth;
+  constructor(game) {
+    this.gameWidth = game.gameWidth;
 
     this.width = 150;
     this.height = 20;
@@ -13,8 +13,8 @@ export default class Paddle {
     // The position affects where the paddle is on the canvas
     // Starts in the center near the bottom
     this.position = {
-      x: gameWidth / 2 - this.width / 2,
-      y: gameHeight - this.height - 10
+      x: game.gameWidth / 2 - this.width / 2,
+      y: game.gameHeight - this.height - 10
     };
   }
 
