@@ -32,6 +32,7 @@ export default class Paddle {
 
   // Draw is used to adjust the position of the paddle
   draw(ctx) {
+    ctx.fillStyle = "black";
     ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
   }
 
