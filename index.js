@@ -10,10 +10,6 @@ let ctx = canvas.getContext("2d"); // ctx = context - Rendering context
 const GAME_WIDTH = 800;
 const GAME_HEIGHT = 600;
 
-// Specify an area to clear on the canvas
-// This is the whole screen
-ctx.clearRect(0, 0, 800, 600);
-
 let paddle = new Paddle(GAME_WIDTH, GAME_HEIGHT);
 
 new InputHandler(paddle);
@@ -23,19 +19,22 @@ paddle.draw(ctx);
 let lastTime = 0;
 
 // images
-let ball = new Ball();
+let ball = new Ball(GAME_WIDTH, GAME_HEIGHT);
 
 function gameLoop(timestamp) {
   let deltaTime = timestamp - lastTime;
   lastTime = timestamp;
 
-  ctx.clearRect(0, 0, 800, 600);
+  // Specify an area to clear on the canvas
+  // This is the whole screen
+  ctx.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
   paddle.update(deltaTime);
   paddle.draw(ctx);
 
+  ball.update(deltaTime);
   ball.draw(ctx);
 
   requestAnimationFrame(gameLoop);
 }
 
-gameLoop();
+requestAnimationFrame(gameLoop);

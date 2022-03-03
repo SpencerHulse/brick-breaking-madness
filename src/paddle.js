@@ -37,8 +37,6 @@ export default class Paddle {
 
   // deltaTime can be dt
   update(deltaTime) {
-    // An if/else to avoid a blank screen before the first deltaTime is declared
-    if (!deltaTime) return;
     // The addition of deltaTime allows it to work the same on multiple frame rates
     this.position.x += this.speed;
 
